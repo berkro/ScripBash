@@ -12,8 +12,8 @@ CMIN=$(echo $CTIME | cut -d ":" -f2)
 EHORA=$(echo $ETIME | cut -d ":" -f1)
 EMIN=$(echo $ETIME | cut -d ":" -f2)
 
-CSECHORA=$(($HORA*3600))
-CSECMIN=$(($MIN*60))
+CSECHORA=$CHORA*3600
+CSECMIN=$CMIN*60
 
 echo $CTIME $ETIME $CSECMIN $CSECHORA $EHORA $EMIN
 
