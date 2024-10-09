@@ -1,8 +1,7 @@
 #/bin/bash
 
-PID=$1
 
-INFO=$(ps -p $1 -o pid=,cputime=,etime=)
+INFO=$(ps -e -o pid=,cputime=,etime=)
 
 CTIME=$(echo $INFO | cut -d " " -f2)
 ETIME=$(echo $INFO | cut -d " " -f3)
