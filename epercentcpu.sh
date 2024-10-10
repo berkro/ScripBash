@@ -1,27 +1,42 @@
 #/bin/bash
 
 
-INFO=$(ps -e -o pid=,cputime=,etime=)
+for PID in $(ps -e -o pid=)
+do
+	INFO=$(ps -p $PID -o pid=,cputime=,etime=)
 
-CTIME=$(echo $INFO | cut -d " " -f2)
-ETIME=$(echo $INFO | cut -d " " -f3)
+	CTIME=$(echo $INFO | cut -d " " -f2)
+	ETIME=$(echo $INFO | cut -d " " -f3)
 
-CHORA=$(echo $CTIME | cut -d ":" -f1)
-CMIN=$(echo $CTIME | cut -d ":" -f2)
-CSEC=$(echo $CTIME | cut -d ":" -f3)
+	CHORA=$(echo $CTIME | cut -d ":" -f1)
+	CHORA=$((10#$CHORA))
+	CMIN=$(echo $CTIME | cut -d ":" -f2)
+	CMIN=$((10#$CMIN))
+	CSEC=$(echo $CTIME | cut -d ":" -f3)
+	CSEC=$((10#$CSEC))
 
-CSECHORA=$(($CHORA*3600))
-CSECMIN=$(($CMIN*60))
-CSECTOTAL=$(($CSECHORA+$CSECMIN+$CSEC))
 
-EMIN=$(echo $ETIME | cut -d ":" -f1)
-ESEC=$(echo $ETIME | cut -d ":" -f2)
+	CSECTOTAL=$(($CHORA*3600+$CMIN*60+$CSEC))
 
-ESECMIN=$(($EMIN*60))
-ESECTOTAL=$(($ESECMIN+$ESEC))
+	EHORA=$(echo $ETIME | cut -d ":" -f1)
+	EMIN=$(echo $ETIME | cut -d ":" -f2)
+	ESEC=$(echo $ETIME | cut -d ":" -f3)
 
-PERCENT=$(($CSECTOTAL*100))
-CPUPERCENT=$(($PERCENT/$ESECTOTAL))
+	EHORA=$(echo $ETIME | cut -d ":" -f1)
+        EHORA=$((10#$EHORA))
+        EMIN=$(echo $ETIME | cut -d ":" -f2)
+        EMIN=$((10#$EMIN))
+        ESEC=$(echo $ETIME | cut -d ":" -f3)
+        ESEC=$((10#$ESEC))
 
-echo $CTIME $CSECTOTAL '(CPU Total sec)' $ETIME $ESECTOTAL '(Elapsed Total sec)' $CPUPERCENT% '(Cpu % usage)'
 
+        ESECTOTAL=$(($EHORA*3600+$EMIN*60+$ESEC))
+
+#	00:03:56    01:11:04
+
+	PERCENT=$(($CSECTOTAL*100))
+	CPUPERCENT=$(($PERCENT/$ESECTOTAL))
+
+	echo $PID $CTIME $CSECTOTAL '(CPU Total sec)' $ETIME $ESECTOTAL '(Elapsed Total sec)' $CPUPERCENT% '(Cpu % usage)'
+
+done
