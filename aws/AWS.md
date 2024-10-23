@@ -1,8 +1,10 @@
-# Connectar per RDP a instancia de AWS.
-Seleccionem o entrem a la instancia, cliquem **connect**, anem a la secció de **RDP cient**. A la part de sota ciquem **Get password**, seguidament **Upload private key file** i afegim la clau privada que vam seleccionar per la instancia. **Decrypt Password**
+# Connectar per SSH a instancia de AWS.
+Primer ens hem de connectar per RDP per instal·lar i configurar SSH.
+## Connectar per RDP a instancia de AWS.
+Seleccionem o entrem a la instancia, cliquem **Connect**, anem a la secció de **RDP cient**. A la part de sota cliquem **Get password**, seguidament **Upload private key file** i afegim la clau privada que vam seleccionar per la instancia. **Decrypt Password**
 ```
 ?eJu=!9QND*p(%-caNeeUo(lzBDMiKP9
 ```
-![image](https://github.com/user-attachments/assets/e51595f1-e7ce-460e-93e8-f67a7c336b8b)
 
-Al programa de RDP de windows posem la IP publica del server. Quan ens demani les credencials introduim l'username i password.
+Al programa de RDP de windows posem la IP publica o el DNS públic del server. Quan ens demani les credencials introduim l'username i password.
+Primer s'obrirà el **Server Configuration Tool**, introduim 15 per anar al PowerShell.
