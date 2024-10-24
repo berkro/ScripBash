@@ -42,3 +42,13 @@ if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyCon
 ```
 ## Crear claus per SSH
 Ara hem de crear les claus per poder accedir des del client al servidor a traves de SSH sense la contrasenya.
+Utilitzem la següent comanda i seguim els passos. No utilitzo passphrase i de nom lo assigno sshKey
+```
+ssh-keygen -t rsa
+```
+
+### ssh-agent per assegurar les claus privades
+L'instal·lem i diem que s'inicï al engegar la maquina
+```
+Get-Service ssh-agent | Set-Service -StartupType Automatic
+```
