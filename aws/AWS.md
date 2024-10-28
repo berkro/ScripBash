@@ -3,7 +3,7 @@ Primer ens hem de connectar per RDP per instal·lar i configurar SSH.
 ## Connectar per RDP a instancia de AWS.
 Seleccionem o entrem a la instancia, cliquem **Connect**, anem a la secció de **RDP cient**. A la part de sota cliquem **Get password**, seguidament **Upload private key file** i afegim la clau privada que vam seleccionar per la instancia. **Decrypt Password**
 ```
-?eJu=!9QND*p(%-caNeeUo(lzBDMiKP9
+hLSzCwTnL1bCW;gMUKVWdg&wZnUu?0j=
 ```
 
 Al programa de RDP de windows posem la IP publica o el DNS públic del server. Quan ens demani les credencials introduim l'username i password.
@@ -40,15 +40,33 @@ if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyCon
     Write-Output "Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists."
        }
 ```
-## Crear claus per SSH
+## Crear claus per SSH (crear-les al client)
 Ara hem de crear les claus per poder accedir des del client al servidor a traves de SSH sense la contrasenya.
 Utilitzem la següent comanda i seguim els passos. No utilitzo passphrase i de nom lo assigno sshKey
 ```
 ssh-keygen -t rsa
 ```
 
+## Afegir les claus al server.
+En el server hem de crear la carpeta .ssh, a dintre la carpeta authorized_keys. Ho creem en el directori del usuari.
+```
+mkdir .ssh
+```
+
 ### ssh-agent per assegurar les claus privades
 L'instal·lem i diem que s'inicï al engegar la maquina
+
+Windows
 ```
 Get-Service ssh-agent | Set-Service -StartupType Automatic
+```
+
+Debian
+```
+eval `ssh-agent -s`
+```
+
+### Cargar les claus al agent ssh
+```
+ ssh-add .\sshKey
 ```
