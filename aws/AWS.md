@@ -52,7 +52,7 @@ En el server hem de crear la carpeta .ssh, a dintre la carpeta authorized_keys. 
 ```
 mkdir .ssh
 ```
-Copiar la clau publica a la carpeta .ssh a dintre l'archiu authorized_keys
+Copiar la clau publica a la carpeta .ssh a dintre l'arxiu authorized_keys
 ```
 scp sshKey.pub Administrator@54.205.192.102:/C:/Users/Administrator/.ssh/authorized_keys
 ```
