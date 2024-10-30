@@ -52,7 +52,15 @@ En el server hem de crear la carpeta .ssh, a dintre la carpeta authorized_keys. 
 ```
 mkdir .ssh
 ```
+Copiar la clau publica a la carpeta .ssh a dintre l'archiu authorized_keys
+```
+scp sshKey.pub Administrator@54.205.192.102:/C:/Users/Administrator/.ssh/authorized_keys
+```
+Copiar la clau pública al arxiu administrators_authorized_keys.
+```
+scp sshKey.pub Administrator@34.229.226.96:/C:/ProgramData/ssh/administrators_authorized_keys
 
+```
 ### ssh-agent per assegurar les claus privades
 L'instal·lem i diem que s'inicï al engegar la maquina
 
