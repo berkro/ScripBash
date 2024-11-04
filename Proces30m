@@ -1,0 +1,3 @@
+$proces = Get-Proces
+$procesUp30m = $proces | Select-Object Id,ProcessName,CPU | Where-Object {$_.CPU -gt 1800}
+Measure-Command {$procesUp30m}
