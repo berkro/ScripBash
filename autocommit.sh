@@ -1,7 +1,7 @@
 #!/bin/bash
 
-COM="$1"
+DATE=$(date)
 
 git add .
-git commit -m "$COM"
+git commit -m "$DATE"
 git push

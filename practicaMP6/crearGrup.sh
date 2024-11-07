@@ -1,1 +1,9 @@
-aws ec2 create-security-group --group-name "launch-wizard-1" --description "launch-wizard-1 created 2024-11-05T16:31:57.499Z" --vpc-id "vpc-05b26babf0a6aea3f" 
+#!/bin/bash
+
+NOMGRUP="HTgrup"
+
+DATE=$(date)
+
+aws ec2 create-security-group --group-name "$NOMGRUP" --description "$NOMGRUP"
+
+aws ec2 authorize-security-group-ingress --group-name $NOMGRUP --protocol tcp --port 3389 --cidr 0.0.0.0/0
