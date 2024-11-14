@@ -34,13 +34,40 @@ GRUPID=$(aws ec2 describe-security-groups --group-name $NOMGRUP --query "Securit
 echo "$GRUPID"
 
 ```
-## Instancia Windows Server 2022
-Per crear les instancies de windows server, utilitzaré un script que executi l'script de crear grups i seguidament crear la instancia amb el grup creat.
+## Linux i Windows Servers
+Per crear les instancies de windows server i linux server, utilitzaré un script que executi l'script de crear grups i seguidament crear les instancia amb el grup creat.
 ```
 #!/bin/bash
 
 GRUPID= ./crearGrup.sh
 
-aws ec2 run-instances  --count "1" --image-id "ami-05f283f34603d6aed" --instance-type "t2.micro" --security-groups $GRUPID \
-                       --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Windows Server 2022"}]}' > /dev/null
+# Crear Windows Server
+aws ec2 run-instances --count "1" --image-id "ami-05f283f34603d6aed" --instance-type "t2.micro" --security-groups $GRUPID \
+		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Windows Server 2022"}]}' > /dev/null
+
+# Crear Linux Server
+aws ec2 run-instances --count "1" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-groups $GRUPID \
+		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Linux Server"}]}' > /dev/null
+```
+## Clients Linux
+Un script que el parametre és el nombre de clients a crear. Comprova si s'ha especificat el parametre i que no sigui major que 10.
+```
+#!/bin/bash
+
+NCLIENTS=$1
+
+if [ $# -ne 1 ]; then
+        echo "S'ha de especificar el nombre de clients a crear (10 max)"
+        exit 1
+fi
+
+if [ "$NCLIENTS" -gt 10 ]; then
+        echo "Com a maxim hi poden haver 10 clients"
+        exit 1
+fi
+
+GRUPID= ./crearGrup.sh
+
+aws ec2 run-instances --count "$NCLIENTS" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-groups $GRUPID \
+                      --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=Linux Client}]" > /dev/null
 ```
