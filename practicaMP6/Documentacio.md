@@ -35,19 +35,32 @@ echo "$GRUPID"
 
 ```
 ## Linux i Windows Servers
-Per crear les instancies de windows server i linux server, utilitzaré un script que executi l'script de crear grups i seguidament crear les instancia amb el grup creat.
+Per crear les instancies de windows server i linux server, faré un script per cada server, després utilitzaré un script que executi l'script de crear grups i que seguidament executi els scripts per crear els servidors.
+### Windows Server
 ```
 #!/bin/bash
 
-GRUPID= ./crearGrup.sh
+aws ec2 run-instances --count "1" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-groups $1 \
+		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Linux Server"}]}' > /dev/null
+```
+### Linux Server
+```
+#!/bin/bash
+
+aws ec2 run-instances --count "1" --image-id "ami-05f283f34603d6aed" --instance-type "t2.micro" --security-groups $1 \
+		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Windows Server 2022"}]}' > /dev/null
+```
+### Combinar
+```
+#!/bin/bash
+
+GRUPID=$(./crearGrup.sh)
 
 # Crear Windows Server
-aws ec2 run-instances --count "1" --image-id "ami-05f283f34603d6aed" --instance-type "t2.micro" --security-groups $GRUPID \
-		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Windows Server 2022"}]}' > /dev/null
+./crearWS.sh $GRUPID
 
 # Crear Linux Server
-aws ec2 run-instances --count "1" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-groups $GRUPID \
-		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Linux Server"}]}' > /dev/null
+./crearLS.sh $GRUPID
 ```
 ## Clients Linux
 Un script que el parametre és el nombre de clients a crear. Comprova si s'ha especificat el parametre i que no sigui major que 10.
