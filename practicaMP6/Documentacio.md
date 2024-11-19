@@ -39,15 +39,14 @@ Per crear les instancies de windows server i linux server, faré un script per c
 ### Windows Server
 ```
 #!/bin/bash
-
-aws ec2 run-instances --count "1" --image-id "ami-05f283f34603d6aed" --instance-type "t2.micro" --security-group-ids $1 \
+aws ec2 run-instances --count "1" --image-id "ami-05f283f34603d6aed" --instance-type "t2.micro" --security-group-ids "$1" \
 		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Windows Server 2022"}]}' > /dev/null
 ```
 ### Linux Server
 ```
 #!/bin/bash
 
-aws ec2 run-instances --count "1" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-group-ids $1 \
+aws ec2 run-instances --count "1" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-group-ids "$1" \
 		      --tag-specifications '{"ResourceType":"instance","Tags":[{"Key":"Name","Value":"Linux Server"}]}' > /dev/null
 ```
 ### Combinar
@@ -55,12 +54,12 @@ aws ec2 run-instances --count "1" --image-id "ami-064519b8c76274859" --instance-
 #!/bin/bash
 
 GRUPID=$(./crearGrup.sh)
-
+echo "$GRUPID"
 # Crear Windows Server
-./crearWS.sh $GRUPID
+./crearWS.sh "$GRUPID"
 
 # Crear Linux Server
-./crearLS.sh $GRUPID
+./crearLS.sh "$GRUPID"
 ```
 ## Clients Linux
 Un script que el parametre és el nombre de clients a crear. Comprova si s'ha especificat el parametre i que no sigui major que 10.
@@ -79,8 +78,8 @@ if [ "$NCLIENTS" -gt 10 ]; then
         exit 1
 fi
 
-GRUPID= ./crearGrup.sh
+GRUPID=$(./crearGrup.sh)
 
-aws ec2 run-instances --count "$NCLIENTS" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-group-ids $GRUPID \
+aws ec2 run-instances --count "$NCLIENTS" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-group-ids "$GRUPID" \
                       --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=Linux Client}]" > /dev/null
 ```
