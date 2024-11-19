@@ -1,7 +1,7 @@
 #!/bin/bash
 
-GRUPID= ./crearGrup.sh
-echo "$GRUPID"
+GRUPID=$(./crearGrup.sh)
+
 # Crear Windows Server
 ./crearWS.sh "$GRUPID"
 
