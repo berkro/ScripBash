@@ -12,7 +12,6 @@ if [ "$NCLIENTS" -gt 10 ]; then
 	exit 1
 fi
 
-GRUPID=$(./crearGrup.sh)
 
-aws ec2 run-instances --count "$NCLIENTS" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" --security-group-ids "$GRUPID" \
+aws ec2 run-instances --count "$NCLIENTS" --image-id "ami-064519b8c76274859" --instance-type "t2.micro" \
 		      --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=Linux Client}]" > /dev/null
