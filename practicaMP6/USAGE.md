@@ -41,13 +41,23 @@ En la màquina on executem els scripts, crear clau ssh.
 ssh-keygen -t rsa
 ```
 ## Afegir claus al server
-En el Windows Server 2022, crear carpeta **.ssh**, i a dintre crear carpeta **authorized_keys**.
+En el Windows Server 2022, crear carpeta **.ssh**.
 ```
 mkdir .ssh
 ```
+Desde la maquina on tenim les claus, copiem la clau pública **.pub** al server amb scp, a dintre la carpeta .ssh al fitxer **authorized_keys**
 ```
-cd .ssh
+scp /ruta/clau.pub Administrator@IPpublicaServer:C:/Users/Administrator/.ssh/authorized_keys
 ```
+Copiar la clau pública al arxiu **administrators_authorized_keys**.
 ```
-mkdir authorized_keys
+scp /ruta/clau.pub Administrator@IPpublicaServer:/C:/ProgramData/ssh/administrators_authorized_keys
+```
+Agent ssh.
+```
+eval `ssh-agent -s`
+```
+Carregar la clau privada, sense .pub, al agent.
+```
+ ssh-add /ruta/clau
 ```
