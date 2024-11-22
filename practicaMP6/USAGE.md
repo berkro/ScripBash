@@ -61,3 +61,8 @@ Carregar la clau privada, sense .pub, al agent.
 ```
  ssh-add /ruta/clau
 ```
+## Crear Active Directory
+Executar l'script **dominiADDS.sh** per instal·lar Active directory.
+```
+./dominiADDS.sh "IP" "Nom.Domini"
+```
